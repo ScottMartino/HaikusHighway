@@ -1,10 +1,11 @@
 import './App.scss';
 import axios from 'axios';
 import { useEffect } from 'react';
+import Form from './Components/Form';
 
 function App() {
   
-  const userInput = "package"
+  const userInput = "accident"
   
   
   
@@ -14,11 +15,10 @@ function App() {
       url: 'http://api.datamuse.com/words',
       method: 'GET',
       params:{
-        // ml : "construction",
-        // rel_bga: "construction",
-        md: 's',
-        sp: userInput,
-        max: 1
+        rel_jja: userInput,
+        rel_bga: userInput,
+        md: 's, p',
+        max: 100
       }
     }).then((response)=>{
       console.log(response.data)
@@ -29,7 +29,8 @@ function App() {
   
   return (
     <div className="App">
-
+      <h1>Haiku Generator</h1>  
+      <Form />
 
 
 
