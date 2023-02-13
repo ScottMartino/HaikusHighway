@@ -11,18 +11,18 @@ function App() {
   
   useEffect(()=>{
 
-    axios({
-      url: 'http://api.datamuse.com/words',
-      method: 'GET',
-      params:{
-        rel_jja: userInput,
-        rel_bga: userInput,
-        md: 's, p',
-        max: 100
-      }
-    }).then((response)=>{
-      console.log(response.data)
-    })
+    // axios({
+    //   url: 'http://api.datamuse.com/words',
+    //   method: 'GET',
+    //   params:{
+    //     rel_jja: userInput,
+    //     rel_bga: userInput,
+    //     md: 's, p',
+    //     max: 100
+    //   }
+    // }).then((response)=>{
+    //   console.log(response.data)
+    // })
   },[])
     
   
