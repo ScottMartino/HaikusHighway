@@ -1,15 +1,17 @@
 import './App.scss';
-import axios from 'axios';
-import { useEffect } from 'react';
+// import axios from 'axios';
+// import { useEffect } from 'react';
 import Form from './Components/Form';
+import { Routes, Route } from 'react-router-dom';
+import ErrorPage from './Components/ErrorPage';
 
 function App() {
   
-  const userInput = "accident"
+  // const userInput = "accident"
   
   
   
-  useEffect(()=>{
+  // useEffect(()=>{
 
     // axios({
     //   url: 'http://api.datamuse.com/words',
@@ -23,14 +25,22 @@ function App() {
     // }).then((response)=>{
     //   console.log(response.data)
     // })
-  },[])
+  // },[])
     
   
   
   return (
     <div className="App">
-      <h1>Haiku Generator</h1>  
-      <Form />
+      <Routes>
+
+        <Route path='/' element={
+          <>
+            <h1>Haiku Generator</h1>  
+            <Form />
+          </>
+        } />
+        <Route path='*' element={<ErrorPage />} />
+      </Routes>
 
 
 

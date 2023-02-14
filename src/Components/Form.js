@@ -1,10 +1,13 @@
 import axios from "axios"
-import { useState } from "react";
+/* import useContext and AppContext Component to useStates on the context component */
+import { useContext } from "react";
+import { AppContext } from "./AppContextProvider";
 
 const Form = () => {
     
-  const [userInput, setUserInput] = useState('');
-  
+  /* const the state and  method we need */
+  const { userInput, setUserInput } = useContext(AppContext);
+
   const handleInputChange = e => {
     setUserInput(e.target.value);
   }
