@@ -1,17 +1,18 @@
 import axios from "axios"
 /* import useContext and AppContext Component to useStates on the context component */
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { AppContext } from "./AppContextProvider";
 
 const Form = () => {
-    
+
   /* const the state and  method we need */
-  const { 
-    userInput, setUserInput, 
-    userError, setUserError, 
+  const {
+    userInput, setUserInput,
+    userError, setUserError,
     syllableLineOne, setSyllableLineOne,
-    lineOne, setLineOne
-   } = useContext(AppContext);
+    lineOne, setLineOne,
+    followingWords, setFollowingWords
+  } = useContext(AppContext);
 
   const handleInputChange = e => {
     // const regEx = /[a-z]/g
@@ -27,65 +28,109 @@ const Form = () => {
     }
     // console.log(regEx.test(e.target.value))
   }
-  
-  const handleInputSubmit = (event) =>{
-        event.preventDefault();
-        event.target[0].value = ('');
-          // console.log(event.target[0].value);
-        /* finding userInput word's syllable */
-          axios({
-            url: 'http://api.datamuse.com/words',
-            method: 'GET',
-            params: {
-              sp: userInput,
-              md: 's, p',
-              max: 1
-            }
-          }).then((response) => {
-            const syllableCount = response.data[0].numSyllables;
-            // console.log(response.data[0].numSyllables);
-            setSyllableLineOne(syllableLineOne - syllableCount);
-            // console.log(setSyllableLineOne);
-            const currentLine = lineOne + userInput
-            setLineOne(currentLine);
-            // setUserInput('');
-            
-          })
+
+  const handleOnClick = word => {
+    // console.log('you clicked ', word.word);
+    const syllableCount = word.numSyllables;
+    setSyllableLineOne(syllableLineOne - syllableCount);
+    // console.log(setSyllableLineOne);
+    const currentLine = `${lineOne} ${word.word}`
+    setLineOne(currentLine);
+  }
+
+  const handleInputSubmit = (event) => {
+    event.preventDefault();
+
+    /* for resetting input */
+    event.target[0].value = ('');
+
+    
+    // console.log(event.target[0].value);
+    /* finding userInput word's syllable */
+    axios({
+      url: 'http://api.datamuse.com/words',
+      method: 'GET',
+      params: {
+        sp: userInput,
+        md: 's, p',
+        max: 1
+      }
+    }).then((response) => {
+      const syllableCount = response.data[0].numSyllables;
+      // console.log(response.data[0].numSyllables);
+      setSyllableLineOne(syllableLineOne - syllableCount);
+      // console.log(setSyllableLineOne);
+      const currentLine = lineOne + userInput
+      setLineOne(currentLine);
+      // setUserInput('');
+
+    })
+  }
+
+  /* for following words */
+  useEffect(() => {
+    console.log('useEffect running')
+    console.log('userINput: ',userInput)
+    axios({
+      url: 'http://api.datamuse.com/words',
+      method: 'GET',
+      params: {
+        rel_jja: userInput,
+        rel_bga: userInput,
+        md: 's, p',
+        max: 20
+      }
+    }).then((response) => {
+
+      // console.log(userInput)
+      // console.log("before: ", response.data)
+
+      /* to filter out words that only meets syllable count limit */
+      setFollowingWords(
+        response.data.filter((word) =>
+          word.numSyllables <= syllableLineOne
+        )
+      )
+
+      // console.log("after: ",followingWordsArray)
+      // console.log(followingWords);
+    })
+    /* dependency of userInput is basically making autocomplete */
+  }, [lineOne])
 
 
-        /* for following words */
-        // axios({
-        //     url: 'http://api.datamuse.com/words',
-        //     method: 'GET',
-        //     params:{
-        //       rel_jja: userInput,
-        //       rel_bga: userInput,
-        //       md: 's, p',
-        //       max: 100
-        //     }
-        //   }).then((response)=>{
-        //     console.log(response.data)
-        //   })
-    }
-    
-    return(
-    
+  return (
+
     <div>
-        <h3>Syllables Left: {syllableLineOne}</h3>   
-        <h3>{lineOne}</h3>
+      <h3>Syllables Left: {syllableLineOne}</h3>
+      <h3>{lineOne}</h3>
 
-        <form name="input" onSubmit={handleInputSubmit}>
-            <label htmlFor="input">Enter first word of Haiku:  </label>
-            {
-              (userError) ? 
-              <h2>no numbers or special chars</h2> :
-              null
-            }
-            <input type="text" id="input" name="input" placeholder="eg. Plant" onChange={handleInputChange}></input>
-            <button type="submit">Submit</button>
-        </form>
+      <ul>
+        {
+          followingWords.map(word => {
+            return (
+              <li>
+                <button onClick={() => handleOnClick(word)}>
+                  {word.numSyllables} {word.word}
+                </button>
+              </li>
+            )
+        })
+        }
+      </ul>
+
+      <form name="input" onSubmit={handleInputSubmit}>
+        <label htmlFor="input">Enter first word of Haiku:  </label>
+        {
+          (userError) ?
+            <h2>no numbers or special chars</h2> :
+            null
+        }
+        <input type="text" id="input" name="input" placeholder="eg. Plant" onChange={handleInputChange}></input>
+        <button type="submit">Submit</button>
+      </form>
     </div>
-    )
+  )
 }
 
 export default Form
