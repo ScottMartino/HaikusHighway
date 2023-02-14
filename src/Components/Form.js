@@ -1,10 +1,12 @@
 import axios from "axios"
 /* import useContext and AppContext Component to useStates on the context component */
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { AppContext } from "./AppContextProvider";
 
 const Form = () => {
 
+  const [syllableError, setSyllableError] = useState(false);
+  const [noMatchError, setNoMatchError] = useState(false);
   /* const the state and  method we need */
   const {
     userInput, setUserInput,
@@ -32,14 +34,17 @@ const Form = () => {
   const handleOnClick = word => {
     // console.log('you clicked ', word.word);
     const syllableCount = word.numSyllables;
+
     setSyllableLineOne(syllableLineOne - syllableCount);
     // console.log(setSyllableLineOne);
     const currentLine = `${lineOne} ${word.word}`
     setLineOne(currentLine);
+    setUserInput(word.word);
   }
 
   const handleInputSubmit = (event) => {
     event.preventDefault();
+    // console.log("asdf  ", event.target[0].value === false)
 
     /* for resetting input */
     event.target[0].value = ('');
@@ -56,21 +61,37 @@ const Form = () => {
         max: 1
       }
     }).then((response) => {
-      const syllableCount = response.data[0].numSyllables;
-      // console.log(response.data[0].numSyllables);
-      setSyllableLineOne(syllableLineOne - syllableCount);
-      // console.log(setSyllableLineOne);
-      const currentLine = lineOne + userInput
-      setLineOne(currentLine);
-      // setUserInput('');
+      if (response.data[0] === undefined) {
+        setNoMatchError(true)
+      } else {
+        setNoMatchError(false);
+        const syllableCount = response.data[0].numSyllables;
+  
+        if ((syllableLineOne - syllableCount) < 0) {
+          setSyllableError(true);
+        } else {
+          // console.log(response.data[0].numSyllables);
+          setSyllableLineOne(syllableLineOne - syllableCount);
+          // console.log(setSyllableLineOne);
+          const currentLine = lineOne + ' ' + userInput
+          setLineOne(currentLine);
+          // setUserInput('');
+          setSyllableError(false);
+
+
+        }
+
+      } 
+        
+
 
     })
   }
 
   /* for following words */
   useEffect(() => {
-    console.log('useEffect running')
-    console.log('userINput: ',userInput)
+    // console.log('useEffect running')
+    // console.log('userINput: ', userInput)
     axios({
       url: 'http://api.datamuse.com/words',
       method: 'GET',
@@ -90,7 +111,8 @@ const Form = () => {
         response.data.filter((word) =>
           word.numSyllables <= syllableLineOne
         )
-      )
+        )
+        console.log('following; ', followingWords)
 
       // console.log("after: ",followingWordsArray)
       // console.log(followingWords);
@@ -107,9 +129,13 @@ const Form = () => {
 
       <ul>
         {
-          followingWords.map(word => {
+          (followingWords.length === 0 && lineOne.length > 0 && syllableLineOne > 0) ? <h2>no commonly following words exist</h2> :
+          null
+        }
+        {
+          followingWords.map((word, index) => {
             return (
-              <li>
+              <li key={`followingWords-${index}`}>
                 <button onClick={() => handleOnClick(word)}>
                   {word.numSyllables} {word.word}
                 </button>
@@ -126,7 +152,17 @@ const Form = () => {
             <h2>no numbers or special chars</h2> :
             null
         }
-        <input type="text" id="input" name="input" placeholder="eg. Plant" onChange={handleInputChange}></input>
+        {
+          (syllableError) ?
+          <h2>too many syllables</h2> :
+          null
+        }
+        {
+          (noMatchError) ?
+          <h2>word does not exist</h2> : 
+          null
+        }
+        <input type="text" id="input" name="input" placeholder="eg. Plant" onChange={handleInputChange} required></input>
         <button type="submit">Submit</button>
       </form>
     </div>
