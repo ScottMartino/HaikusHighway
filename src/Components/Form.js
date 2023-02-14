@@ -31,6 +31,12 @@ const Form = () => {
     // console.log(regEx.test(e.target.value))
   }
 
+  const handleClear = () => {
+    setSyllableLineOne(5);
+    setLineOne('');
+    setUserInput('');
+  }
+
   const handleOnClick = word => {
     // console.log('you clicked ', word.word);
     const syllableCount = word.numSyllables;
@@ -165,6 +171,7 @@ const Form = () => {
         <input type="text" id="input" name="input" placeholder="eg. Plant" onChange={handleInputChange} required></input>
         <button type="submit">Submit</button>
       </form>
+        <button onClick={handleClear}>Clear</button>
     </div>
   )
 }
