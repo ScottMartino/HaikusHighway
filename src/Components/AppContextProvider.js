@@ -21,7 +21,7 @@ const AppContextProvider = ({ children }) => {
                 lineOne, setLineOne,
                 followingWords, setFollowingWords,
                 completedHaiku, setCompletedHaiku,
-                queryUserInput, setQueryUserInput,
+                // queryUserInput, setQueryUserInput,
             }}
         >
             {children}
