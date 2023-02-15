@@ -13,7 +13,9 @@ const Form = () => {
     userError, setUserError,
     syllableLineOne, setSyllableLineOne,
     lineOne, setLineOne,
-    followingWords, setFollowingWords
+    followingWords, setFollowingWords,
+    completedHaiku, setCompletedHaiku,
+    queryUserInput, setQueryUserInput,
   } = useContext(AppContext);
 
   const handleInputChange = e => {
@@ -46,23 +48,26 @@ const Form = () => {
     const currentLine = `${lineOne} ${word.word}`
     setLineOne(currentLine);
     setUserInput(word.word);
+    setQueryUserInput(word.word);
   }
 
   const handleInputSubmit = (event) => {
     event.preventDefault();
+    console.log(userInput);
+    setQueryUserInput(userInput);
+    console.log(queryUserInput);
     // console.log("asdf  ", event.target[0].value === false)
 
     /* for resetting input */
     event.target[0].value = ('');
 
-    
     // console.log(event.target[0].value);
     /* finding userInput word's syllable */
     axios({
       url: 'http://api.datamuse.com/words',
       method: 'GET',
       params: {
-        sp: userInput,
+        sp: queryUserInput,
         md: 's, p',
         max: 1
       }
@@ -72,7 +77,7 @@ const Form = () => {
       } else {
         setNoMatchError(false);
         const syllableCount = response.data[0].numSyllables;
-  
+
         if ((syllableLineOne - syllableCount) < 0) {
           setSyllableError(true);
         } else {
@@ -83,16 +88,23 @@ const Form = () => {
           setLineOne(currentLine);
           // setUserInput('');
           setSyllableError(false);
+          setQueryUserInput(userInput);
 
 
         }
 
-      } 
-        
+      }
+
 
 
     })
   }
+
+  useEffect(() => {
+    const completedLine = [...lineOne];
+    setCompletedHaiku(completedLine);
+  }, [lineOne, setCompletedHaiku])
+
 
   /* for following words */
   useEffect(() => {
@@ -102,8 +114,8 @@ const Form = () => {
       url: 'http://api.datamuse.com/words',
       method: 'GET',
       params: {
-        rel_jja: userInput,
-        rel_bga: userInput,
+        rel_jja: queryUserInput,
+        rel_bga: queryUserInput,
         md: 's, p',
         max: 20
       }
@@ -117,14 +129,15 @@ const Form = () => {
         response.data.filter((word) =>
           word.numSyllables <= syllableLineOne
         )
-        )
-        console.log('following; ', followingWords)
+      )
 
       // console.log("after: ",followingWordsArray)
       // console.log(followingWords);
     })
     /* dependency of userInput is basically making autocomplete */
   }, [lineOne])
+
+
 
 
   return (
@@ -136,7 +149,7 @@ const Form = () => {
       <ul>
         {
           (followingWords.length === 0 && lineOne.length > 0 && syllableLineOne > 0) ? <h2>no commonly following words exist</h2> :
-          null
+            null
         }
         {
           followingWords.map((word, index) => {
@@ -147,9 +160,11 @@ const Form = () => {
                 </button>
               </li>
             )
-        })
+          })
         }
       </ul>
+
+      <div>{syllableLineOne === 0 ? completedHaiku : null}</div>
 
       <form name="input" onSubmit={handleInputSubmit}>
         <label htmlFor="input">Enter first word of Haiku:  </label>
@@ -160,18 +175,18 @@ const Form = () => {
         }
         {
           (syllableError) ?
-          <h2>too many syllables</h2> :
-          null
+            <h2>too many syllables</h2> :
+            null
         }
         {
           (noMatchError) ?
-          <h2>word does not exist</h2> : 
-          null
+            <h2>word does not exist</h2> :
+            null
         }
         <input type="text" id="input" name="input" placeholder="eg. Plant" onChange={handleInputChange} required></input>
         <button type="submit">Submit</button>
       </form>
-        <button onClick={handleClear}>Clear</button>
+      <button onClick={handleClear}>Clear</button>
     </div>
   )
 }
