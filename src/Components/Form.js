@@ -14,7 +14,8 @@ const Form = () => {
     syllableLineOne, setSyllableLineOne,
     lineOne, setLineOne,
     followingWords, setFollowingWords,
-    completedHaiku, setCompletedHaiku
+    completedHaiku, setCompletedHaiku,
+    queryUserInput, setQueryUserInput,
   } = useContext(AppContext);
 
   const handleInputChange = e => {
