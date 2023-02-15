@@ -13,7 +13,8 @@ const Form = () => {
     userError, setUserError,
     syllableLineOne, setSyllableLineOne,
     lineOne, setLineOne,
-    followingWords, setFollowingWords
+    followingWords, setFollowingWords,
+    completedHaiku, setCompletedHaiku
   } = useContext(AppContext);
 
   const handleInputChange = e => {
@@ -36,6 +37,11 @@ const Form = () => {
     setLineOne('');
     setUserInput('');
   }
+
+  useEffect(() => {
+    const completedLine = [...lineOne];
+    setCompletedHaiku(completedLine);
+  }, [lineOne, setCompletedHaiku])
 
   const handleOnClick = word => {
     // console.log('you clicked ', word.word);
@@ -150,6 +156,10 @@ const Form = () => {
           })
         }
       </ul>
+
+      <div>
+        {syllableLineOne === 0 ? completedHaiku : null}
+      </div>
 
       <form name="input" onSubmit={handleInputSubmit}>
         <label htmlFor="input">Enter first word of Haiku:  </label>
