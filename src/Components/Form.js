@@ -13,9 +13,7 @@ const Form = () => {
     userError, setUserError,
     syllableLineOne, setSyllableLineOne,
     lineOne, setLineOne,
-    followingWords, setFollowingWords,
-    completedHaiku, setCompletedHaiku,
-    queryUserInput, setQueryUserInput,
+    followingWords, setFollowingWords
   } = useContext(AppContext);
 
   const handleInputChange = e => {
@@ -48,18 +46,15 @@ const Form = () => {
     const currentLine = `${lineOne} ${word.word}`
     setLineOne(currentLine);
     setUserInput(word.word);
-    setQueryUserInput(word.word);
   }
 
   const handleInputSubmit = (event) => {
     event.preventDefault();
-    console.log(userInput);
-    setQueryUserInput(userInput);
-    console.log(queryUserInput);
     // console.log("asdf  ", event.target[0].value === false)
 
     /* for resetting input */
     event.target[0].value = ('');
+
 
     // console.log(event.target[0].value);
     /* finding userInput word's syllable */
@@ -67,7 +62,7 @@ const Form = () => {
       url: 'http://api.datamuse.com/words',
       method: 'GET',
       params: {
-        sp: queryUserInput,
+        sp: userInput,
         md: 's, p',
         max: 1
       }
@@ -88,7 +83,6 @@ const Form = () => {
           setLineOne(currentLine);
           // setUserInput('');
           setSyllableError(false);
-          setQueryUserInput(userInput);
 
 
         }
@@ -100,12 +94,6 @@ const Form = () => {
     })
   }
 
-  useEffect(() => {
-    const completedLine = [...lineOne];
-    setCompletedHaiku(completedLine);
-  }, [lineOne, setCompletedHaiku])
-
-
   /* for following words */
   useEffect(() => {
     // console.log('useEffect running')
@@ -114,8 +102,8 @@ const Form = () => {
       url: 'http://api.datamuse.com/words',
       method: 'GET',
       params: {
-        rel_jja: queryUserInput,
-        rel_bga: queryUserInput,
+        rel_jja: userInput,
+        rel_bga: userInput,
         md: 's, p',
         max: 20
       }
@@ -130,14 +118,13 @@ const Form = () => {
           word.numSyllables <= syllableLineOne
         )
       )
+      console.log('following; ', followingWords)
 
       // console.log("after: ",followingWordsArray)
       // console.log(followingWords);
     })
     /* dependency of userInput is basically making autocomplete */
   }, [lineOne])
-
-
 
 
   return (
@@ -163,8 +150,6 @@ const Form = () => {
           })
         }
       </ul>
-
-      <div>{syllableLineOne === 0 ? completedHaiku : null}</div>
 
       <form name="input" onSubmit={handleInputSubmit}>
         <label htmlFor="input">Enter first word of Haiku:  </label>

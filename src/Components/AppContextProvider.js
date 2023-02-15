@@ -10,7 +10,7 @@ const AppContextProvider = ({ children }) => {
     const [lineOne, setLineOne] = useState('');
     const [followingWords, setFollowingWords] = useState([]);
     const [completedHaiku, setCompletedHaiku] = useState([]);
-    const [queryUserInput, setQueryUserInput] = useState('');
+    // const [queryUserInput, setQueryUserInput] = useState('');
 
     return (
         <AppContext.Provider
