@@ -37,8 +37,10 @@ const Form = () => {
     setSyllableLineOne(5);
     setLineOne('');
     setUserInput('');
+    setQueryUserInput('');
   }
 
+  /* to display completed Haiku once each line is made */
   useEffect(() => {
     const completedLine = [...lineOne];
     setCompletedHaiku(completedLine);
@@ -52,19 +54,19 @@ const Form = () => {
     // console.log(setSyllableLineOne);
     const currentLine = `${lineOne} ${word.word}`
     setLineOne(currentLine);
-    setUserInput(word.word);
+    // setUserInput(word.word);
+    setQueryUserInput(word.word);
   }
 
   const handleInputSubmit = (event) => {
     event.preventDefault();
-    // console.log("asdf  ", event.target[0].value === false)
+    /* set the userInput into queryUserInput to make axios call because queryUserInput is the useEffect dependency */
+    setQueryUserInput(userInput);
 
     /* for resetting input */
     event.target[0].value = ('');
 
-
-    // console.log(event.target[0].value);
-    /* finding userInput word's syllable */
+    /* queryUserInput for syllable */
     axios({
       url: 'http://api.datamuse.com/words',
       method: 'GET',
@@ -75,7 +77,7 @@ const Form = () => {
       }
     }).then((response) => {
       if (response.data[0] === undefined) {
-        setNoMatchError(true)
+        setNoMatchError(true);
       } else {
         setNoMatchError(false);
         const syllableCount = response.data[0].numSyllables;
@@ -83,21 +85,12 @@ const Form = () => {
         if ((syllableLineOne - syllableCount) < 0) {
           setSyllableError(true);
         } else {
-          // console.log(response.data[0].numSyllables);
           setSyllableLineOne(syllableLineOne - syllableCount);
-          // console.log(setSyllableLineOne);
-          const currentLine = lineOne + ' ' + userInput
+          const currentLine = lineOne + ' ' + userInput;
           setLineOne(currentLine);
-          // setUserInput('');
           setSyllableError(false);
-
-
         }
-
       }
-
-
-
     })
   }
 
@@ -109,29 +102,21 @@ const Form = () => {
       url: 'http://api.datamuse.com/words',
       method: 'GET',
       params: {
-        rel_jja: userInput,
-        rel_bga: userInput,
+        rel_jja: queryUserInput,
+        rel_bga: queryUserInput,
         md: 's, p',
         max: 20
       }
     }).then((response) => {
-
-      // console.log(userInput)
-      // console.log("before: ", response.data)
-
       /* to filter out words that only meets syllable count limit */
       setFollowingWords(
         response.data.filter((word) =>
           word.numSyllables <= syllableLineOne
         )
       )
-      console.log('following; ', followingWords)
-
-      // console.log("after: ",followingWordsArray)
-      // console.log(followingWords);
     })
     /* dependency of userInput is basically making autocomplete */
-  }, [lineOne])
+  }, [lineOne, queryUserInput, setFollowingWords, syllableLineOne])
 
 
   return (
@@ -158,9 +143,9 @@ const Form = () => {
         }
       </ul>
 
-      <div>
+      <h2>
         {syllableLineOne === 0 ? completedHaiku : null}
-      </div>
+      </h2>
 
       <form name="input" onSubmit={handleInputSubmit}>
         <label htmlFor="input">Enter first word of Haiku:  </label>
