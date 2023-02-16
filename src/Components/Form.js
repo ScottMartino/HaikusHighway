@@ -1,6 +1,6 @@
 import axios from "axios"
 /* import useContext and AppContext Component to useStates on the context component */
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { AppContext } from "./AppContextProvider";
 
 const Form = () => {
@@ -12,9 +12,9 @@ const Form = () => {
     userError, setUserError,
     syllableLineOne, setSyllableLineOne,
     lineOne, setLineOne,
-    followingWords, setFollowingWords,
-    completedHaiku, setCompletedHaiku,
-    queryUserInput, setQueryUserInput,
+    setCompletedHaiku,
+    setQueryUserInput,
+    setCurrentSyllable,
   } = useContext(AppContext);
 
   const handleInputChange = e => {
@@ -26,7 +26,6 @@ const Form = () => {
       /* reset userError display when corrected */
       setUserError(false);
       setUserInput(e.target.value);
-
     }
   }
 
@@ -36,33 +35,7 @@ const Form = () => {
     setUserInput('');
     setQueryUserInput('');
     setCompletedHaiku([]);
-  }
-
-  useEffect(()=>{
-    if (completedHaiku.length === 0 && syllableLineOne === 0) {
-      setCompletedHaiku([lineOne]);
-      setLineOne('');
-      setSyllableLineOne(7)
-    } else if (completedHaiku.length === 1 && syllableLineOne === 0) {
-      const twoLines = [...completedHaiku];
-      twoLines.push(lineOne);
-      setCompletedHaiku(twoLines);
-      setLineOne('');
-      setSyllableLineOne(5)
-    }  else if ( completedHaiku.length === 2 && syllableLineOne === 0){
-      const threeLines = [...completedHaiku];
-      threeLines.push(lineOne);
-      setCompletedHaiku(threeLines);
-      setLineOne('')
-    }
-  },[completedHaiku, setLineOne, setSyllableLineOne, syllableLineOne, lineOne, setCompletedHaiku])
-
-  const handleOnClick = word => {
-    const syllableCount = word.numSyllables;
-    setSyllableLineOne(syllableLineOne - syllableCount);
-    const currentLine = `${lineOne} ${word.word}`
-    setLineOne(currentLine);
-    setQueryUserInput(word.word);
+    setCurrentSyllable(0)
   }
 
   const handleInputSubmit = (event) => {
@@ -96,61 +69,15 @@ const Form = () => {
           const currentLine = lineOne + ' ' + userInput;
           setLineOne(currentLine);
           setSyllableError(false);
+          setCurrentSyllable(0)
         }
       }
     })
   }
 
-  /* for following words */
-  useEffect(() => {
-    axios({
-      url: 'https://api.datamuse.com/words',
-      method: 'GET',
-      params: {
-        rel_jja: queryUserInput,
-        rel_bga: queryUserInput,
-        md: 's, p',
-        max: 20
-      }
-    }).then((response) => {
-      /* to filter out words that only meets syllable count limit */
-      setFollowingWords(
-        response.data.filter((word) =>
-          word.numSyllables <= syllableLineOne
-        )
-      )
-    })
-    /* dependency of userInput is basically making autocomplete */
-  }, [lineOne, queryUserInput, setFollowingWords, syllableLineOne])
-
-   return (
+  return (
     <div>
-      <h3>Syllables Left: {syllableLineOne}</h3>
       <h3>{lineOne}</h3>
-      <ul>
-        {
-          (followingWords.length === 0 && lineOne.length > 0 && syllableLineOne > 0) ? <h2>no commonly following words exist</h2> :
-            null
-        }
-        {
-          followingWords.map((word, index) => {
-            return (
-              <li key={`followingWords-${index}`}>
-                <button onClick={() => handleOnClick(word)}>
-                  {word.numSyllables} {word.word}
-                </button>
-              </li>
-            )
-          })
-        }
-      </ul>
-
-      <ul> {completedHaiku.map((line, index) => {
-        return (
-          <li key={`line-${index}`}>{line}</li>
-        )
-      })} </ul>
-
       <form name="input" onSubmit={handleInputSubmit}>
         <label htmlFor="input">Enter first word of Haiku:  </label>
         {
