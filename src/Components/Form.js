@@ -69,7 +69,7 @@ const Form = () => {
 
     /* queryUserInput for syllable */
     axios({
-      url: 'http://api.datamuse.com/words',
+      url: 'https://api.datamuse.com/words',
       method: 'GET',
       params: {
         sp: userInput,
@@ -100,7 +100,7 @@ const Form = () => {
     // console.log('useEffect running')
     // console.log('userINput: ', userInput)
     axios({
-      url: 'http://api.datamuse.com/words',
+      url: 'https://api.datamuse.com/words',
       method: 'GET',
       params: {
         rel_jja: queryUserInput,
