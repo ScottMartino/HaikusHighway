@@ -1,0 +1,35 @@
+@use "variables" as *;
+
+html {
+    font-size: 125%; //default fontsize to 20px
+}
+
+body {
+    font-family: $bodyFont;
+
+}
+
+h1, h2, h3{
+    font-family: $headingFont;
+}
+
+a{
+    text-decoration: none;
+}
+
+.wrapper {
+    margin: 0 auto;
+    width:90%;
+    min-height: 95vh;
+    display: flex;
+    flex-direction: column;
+}
+
+button {
+    font-family: $bodyFont;
+    margin:5px;
+}
+
+li {
+    list-style: none;
+}
