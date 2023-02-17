@@ -28,6 +28,17 @@ a{
 button {
     font-family: $bodyFont;
     margin:5px;
+    color: $grey;
+    background-color: $beige;
+    border: 1px solid $green;
+    text-decoration: none;
+    padding: 5px;
+    border-radius: 4px;
+    &:hover,
+    &:focus {
+        background-color: $green;
+        color: $grey;
+    }
 }
 
 li {
