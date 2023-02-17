@@ -30,7 +30,7 @@ const FollowingWords = () => {
                 rel_jja: queryUserInput,
                 rel_bga: queryUserInput,
                 md: 's, p',
-                max: 20
+                max: 10
             }
         }).then((response) => {
             /* to filter out words that only meets syllable count limit */
@@ -44,9 +44,12 @@ const FollowingWords = () => {
     }, [lineOne, queryUserInput, setFollowingWords, syllableLineOne])
 
     return (
+        <div className='follwingWordsContainer'>
+            <p>Possible following words: Syllables Left <b>({syllableLineOne})</b></p>
+
         <ul className='followingWords' >
             {
-                ((followingWords.length === 0 && lineOne.length > 0 && syllableLineOne > 0) || (followingWords.length === 0 && completedHaiku.length > 0)) ? <h2>no commonly following words exist</h2> :
+                ((followingWords.length === 0 && lineOne.length > 0 && syllableLineOne > 0) || (followingWords.length === 0 && completedHaiku.length > 0)) ? <li><p>No commonly following words exist.  Please enter another choice.</p></li> :
                     null
             }
             {
@@ -54,13 +57,14 @@ const FollowingWords = () => {
                     return (
                         <li key={`followingWords-${index}`}>
                             <button onClick={() => handleOnClick(word)}>
-                                {word.numSyllables} {word.word}
+                            {word.word} - {word.numSyllables}
                             </button>
                         </li>
                     )
                 })
             }
         </ul>
+        </div>
     )
 }
 

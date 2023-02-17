@@ -30,10 +30,12 @@ const DisplayHaiku = () => {
     }, [completedHaiku, setLineOne, setSyllableLineOne, syllableLineOne, lineOne, setCompletedHaiku])
 
     return (
-        <ul>
+        <ul className='displayHaikuContainer'>
             {completedHaiku.map((line, index) => {
                 return (
-                    <li key={`line-${index}`}>{line}</li>
+                    <li key={`line-${index}`}>
+                        <h2>{line}</h2>
+                    </li>
                 )
             })
             }

@@ -1,7 +1,8 @@
 import axios from "axios"
 /* import useContext and AppContext Component to useStates on the context component */
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { AppContext } from "./AppContextProvider";
+import DisplaySyllable from "./DisplaySyllable";
 
 const Form = () => {
   const [syllableError, setSyllableError] = useState(false);
@@ -14,6 +15,7 @@ const Form = () => {
     lineOne, setLineOne,
     setQueryUserInput,
     setCurrentSyllable,
+    errorMessage, setErrorMessage
   } = useContext(AppContext);
 
   const handleInputChange = e => {
@@ -27,7 +29,6 @@ const Form = () => {
       setUserInput(e.target.value);
     }
   }
-
 
   const handleInputSubmit = (event) => {
     event.preventDefault();
@@ -66,28 +67,32 @@ const Form = () => {
     })
   }
 
+  useEffect(() => {
+    if (userError) {
+      setErrorMessage('no numbers or special chars')
+    } else if (syllableError) {
+      setErrorMessage('too many syllables')
+    } else if (noMatchError) {
+      setErrorMessage('word does not exist')
+    } else {
+      setErrorMessage('');
+    }
+  }, [userError, syllableError, noMatchError, setErrorMessage])
+
   return (
-    <div>
-      <h3>{lineOne}</h3>
+    <div className='formContainer'>
+      <h2>{lineOne}</h2>
       <form name="input" onSubmit={handleInputSubmit}>
         <label htmlFor="input">Enter first word of Haiku:  </label>
         {
-          (userError) ?
-            <h2>no numbers or special chars</h2> :
-            null
+          (errorMessage) ?
+          <p>{errorMessage}</p> :
+          <DisplaySyllable />
         }
-        {
-          (syllableError) ?
-            <h2>too many syllables</h2> :
-            null
-        }
-        {
-          (noMatchError) ?
-            <h2>word does not exist</h2> :
-            null
-        }
-        <input type="text" id="input" name="input" placeholder="eg. Plant" onChange={handleInputChange} required></input>
-        <button type="submit">Submit</button>
+        <div className="inputContainer">
+          <input type="text" id="input" name="input" placeholder="eg. Plant" onChange={handleInputChange} required></input>
+          <button type="submit">Submit</button>
+        </div>
       </form>
     </div>
   )
