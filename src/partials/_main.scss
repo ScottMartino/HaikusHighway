@@ -2,10 +2,95 @@
 
 section {
     text-align: center;
-    min-height: 80%;
+    min-height: 70%;
+}
+
+.followingWordsContainer {
+    display: flex;
+    flex-direction: column;
+    margin: 0 10%;
+    min-height: 6rem;
+    p {
+        color: $grey;
+        margin-bottom: 0.5rem;
+    }
 }
 
 .followingWords {
     display: flex;
     flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: center;
+    margin-top: 0.5rem;
+    li {
+        display: flex;
+        margin: 0.25rem;
+        color: $grey;
+        justify-content: space-between;
+    }
 }
+
+/* form styles */
+.formContainer {
+    margin: 1rem;
+    display: flex;
+    flex-direction: column;
+
+}
+
+form {
+    margin-top: 2rem;
+    display: flex;
+    flex-direction: column;
+    div {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+    }
+}
+
+label {
+    color: $grey;
+}
+
+form input {
+    padding: 5px 0.5rem;
+    outline: none;
+    background-color: $green;
+    border: 1px solid transparent;
+    margin-right: 1rem;
+    border-radius: 4px;
+    transition: border 0.4s;
+    color: $grey;
+    &:hover,
+    &focus {
+        border: 1px solid $grey;
+    }
+}
+
+.empty {
+    min-height: 1.6rem;
+}
+
+.displayHaikuContainer {
+    padding: 10px 0 10px 0;
+    min-height: 7rem;
+    max-width: auto;
+    border-radius: 10px;
+    margin: 2rem;
+    background-color: $green;
+    li {
+        margin: 0.6rem;
+        text-align: left;
+        text-transform: capitalize;
+    }
+}
+
+.inputContainer {
+    margin-top: 1.5rem;
+}
+
+.syllableCountContainer{
+    margin-top: 1rem;
+}
+/* Media Queries related to  */

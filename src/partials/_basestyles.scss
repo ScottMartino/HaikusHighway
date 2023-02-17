@@ -1,17 +1,31 @@
 @use "variables" as *;
 
 html {
-    font-size: 125%; //default fontsize to 20px
+    font-size: 125%; // increase default fontsize to 20px
 }
 
 body {
     font-family: $bodyFont;
-    background-color: $grey;
 
+    /* background image created through DALL·E (ai art generator by OpenAI: https: //openai.com/dall-e-2/ ) */
+    background-image: url('../../public/assets/DALL-E-background.png');
+    background-size: cover;
+    width: 100%;
+    height: auto;
+    background-repeat: no-repeat;
 }
 
 h1, h2, h3{
     font-family: $headingFont;
+    color: $grey;
+}
+
+p {
+    color: $grey;
+}
+
+h1 {
+    font-size: 3rem;
 }
 
 a{
@@ -23,23 +37,30 @@ a{
     }
 }
 
+.OuterContainer {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
 .wrapper {
     margin: 0 auto;
     width:90%;
-    min-height: 95vh;
     display: flex;
     flex-direction: column;
 }
 
 button {
     font-family: $bodyFont;
-    margin:5px;
+    font-weight: 600;
+    // margin:5px;
     color: $grey;
     background-color: $beige;
     border: 1px solid $green;
     text-decoration: none;
-    padding: 5px;
+    padding: 5px 0.8rem;
     border-radius: 4px;
+    transition: background-color 0.4s;
     &:hover,
     &:focus {
         background-color: $green;
@@ -50,3 +71,13 @@ button {
 li {
     list-style: none;
 }
+
+.youreDone {
+    margin: 2rem;
+}
+
+.clearButton {
+    margin: .5rem;
+}
+
+/* Media Queries related to basestyles */
