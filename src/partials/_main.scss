@@ -1,0 +1,11 @@
+@use "variables" as *;
+
+section {
+    text-align: center;
+    min-height: 80%;
+}
+
+.followingWords {
+    display: flex;
+    flex-wrap: wrap;
+}
