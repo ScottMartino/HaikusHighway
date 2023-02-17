@@ -12,7 +12,6 @@ const Form = () => {
     userError, setUserError,
     syllableLineOne, setSyllableLineOne,
     lineOne, setLineOne,
-    setCompletedHaiku,
     setQueryUserInput,
     setCurrentSyllable,
   } = useContext(AppContext);
@@ -29,14 +28,6 @@ const Form = () => {
     }
   }
 
-  const handleClear = () => {
-    setSyllableLineOne(5);
-    setLineOne('');
-    setUserInput('');
-    setQueryUserInput('');
-    setCompletedHaiku([]);
-    setCurrentSyllable(0)
-  }
 
   const handleInputSubmit = (event) => {
     event.preventDefault();
@@ -98,7 +89,6 @@ const Form = () => {
         <input type="text" id="input" name="input" placeholder="eg. Plant" onChange={handleInputChange} required></input>
         <button type="submit">Submit</button>
       </form>
-      <button onClick={handleClear}>Clear</button>
     </div>
   )
 }

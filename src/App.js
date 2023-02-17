@@ -11,26 +11,49 @@ import { AppContext } from './Components/AppContextProvider';
 function App() {
   const {
     completedHaiku,
+    setSyllableLineOne,
+    setLineOne,
+    setUserInput, 
+    setQueryUserInput,
+    setCompletedHaiku,
+    setCurrentSyllable
   } = useContext(AppContext)
 
+  const handleClear = () => {
+    setSyllableLineOne(5);
+    setLineOne('');
+    setUserInput('');
+    setQueryUserInput('');
+    setCompletedHaiku([]);
+    setCurrentSyllable(0);
+  }
+
   return (
-    <div className="App">
+    <div className="wrapper">
       <Routes>
         <Route path='/' element={
           <>
-            <h1>Haikus Highway</h1>
-            <DisplayHaiku />
-            {
-              completedHaiku.length < 3 ?
-                <>
-                  <DisplaySyllable />
-                  <FollowingWords />
-                  <Form />
-                </>
-                : 
-                <h2>You're Done</h2>
-            }
-            
+            <header>
+              <h1>Haikus Highway</h1>
+            </header>
+            <main>
+              <section>
+                <DisplayHaiku />
+              </section>
+              <section>
+                {
+                  completedHaiku.length < 3 ?
+                    <div>
+                      <DisplaySyllable />
+                      <FollowingWords />
+                      <Form />
+                    </div>
+                    :
+                    <h2>You're Done</h2>
+                }
+            <button onClick={handleClear}>Clear</button>
+            </section> 
+            </main>
             <footer>Created by Umai Rav, Jimmy Kang and Scott Martino at <a href="https://junocollege.com/">Juno College</a></footer>
           </>
         } />

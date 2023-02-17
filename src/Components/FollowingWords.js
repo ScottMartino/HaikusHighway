@@ -44,7 +44,7 @@ const FollowingWords = () => {
     }, [lineOne, queryUserInput, setFollowingWords, syllableLineOne])
 
     return (
-        <ul>
+        <ul className='followingWords' >
             {
                 ((followingWords.length === 0 && lineOne.length > 0 && syllableLineOne > 0) || (followingWords.length === 0 && completedHaiku.length > 0)) ? <h2>no commonly following words exist</h2> :
                     null
