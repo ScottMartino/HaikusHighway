@@ -1,5 +1,4 @@
 import axios from "axios"
-/* import useContext and AppContext Component to useStates on the context component */
 import { useContext, useEffect, } from "react";
 import { AppContext } from "./AppContextProvider";
 
@@ -9,7 +8,7 @@ function DisplaySyllable() {
         currentSyllable,
         setCurrentSyllable,
     } = useContext(AppContext);
-
+    /* axios fetch onChange userInput to grab the number of syllables for userInputted word */
     useEffect(() => {
         axios({
             url: 'https://api.datamuse.com/words',
@@ -17,11 +16,14 @@ function DisplaySyllable() {
             params: {
                 sp: userInput,
                 md: 's',
-                max: 1
+                max: 5
             }
         }).then((response) => {
             if (response.data[0] !== undefined) {
                 setCurrentSyllable(response.data[0].numSyllables);
+            } else if (userInput.length === 0) {
+                /* set count back down to zero when all input is removed */
+                setCurrentSyllable(0);
             }
         })
     }, [userInput, setCurrentSyllable])
