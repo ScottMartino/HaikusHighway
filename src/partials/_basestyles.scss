@@ -6,7 +6,6 @@ html {
 
 body {
     font-family: $bodyFont;
-
     /* background image created through DALL·E (ai art generator by OpenAI: https: //openai.com/dall-e-2/ ) */
     background-image: url('../../public/assets/DALL-E-background.png');
     background-size: cover;
@@ -33,7 +32,6 @@ h1 {
 a {
     text-decoration: none;
     color: $beige;
-
     &:hover,
     &:focus {
         color: $green;
@@ -56,7 +54,6 @@ a {
 button {
     font-family: $bodyFont;
     font-weight: 600;
-    // margin:5px;
     color: $grey;
     background-color: $beige;
     border: 1px solid $green;
@@ -64,7 +61,6 @@ button {
     padding: 5px 0.8rem;
     border-radius: 4px;
     transition: background-color 0.4s;
-
     &:hover,
     &:focus {
         background-color: $green;

@@ -11,7 +11,8 @@ const FollowingWords = () => {
         followingWords,
         setFollowingWords,
         queryUserInput, setQueryUserInput,
-        completedHaiku
+        completedHaiku, apiLoading,
+        setApiLoading,
     } = useContext(AppContext);
 
     const handleOnClick = word => {
@@ -23,6 +24,7 @@ const FollowingWords = () => {
     }
 
     useEffect(() => {
+        setApiLoading(true)
         axios({
             url: 'https://api.datamuse.com/words',
             method: 'GET',
@@ -34,6 +36,7 @@ const FollowingWords = () => {
             }
         }).then((response) => {
             /* to filter out words that only meets syllable count limit */
+            setApiLoading(false)
             setFollowingWords(
                 response.data.filter((word) =>
                     word.numSyllables <= syllableLineOne
@@ -41,29 +44,30 @@ const FollowingWords = () => {
             )
         })
         /* dependency of userInput is basically making autocomplete */
-    }, [lineOne, queryUserInput, setFollowingWords, syllableLineOne])
+    }, [lineOne, queryUserInput, setFollowingWords, syllableLineOne, setApiLoading])
 
     return (
         <div className='follwingWordsContainer'>
             <p>Possible following words: Syllables Left <b>({syllableLineOne})</b></p>
+            {apiLoading ? <p>Loading</p> : null}
 
-        <ul className='followingWords' >
-            {
-                ((followingWords.length === 0 && lineOne.length > 0 && syllableLineOne > 0) || (followingWords.length === 0 && completedHaiku.length > 0)) ? <li><p>No commonly following words exist.  Please enter another choice.</p></li> :
-                    null
-            }
-            {
-                followingWords.map((word, index) => {
-                    return (
-                        <li key={`followingWords-${index}`}>
-                            <button onClick={() => handleOnClick(word)}>
-                            {word.word} - {word.numSyllables}
-                            </button>
-                        </li>
-                    )
-                })
-            }
-        </ul>
+            <ul className='followingWords' >
+                {
+                    ((followingWords.length === 0 && lineOne.length > 0 && syllableLineOne > 0) || (followingWords.length === 0 && completedHaiku.length > 0)) ? <li><p>No commonly following words exist.  Please enter another choice.</p></li> :
+                        null
+                }
+                {
+                    followingWords.map((word, index) => {
+                        return (
+                            <li key={`followingWords-${index}`}>
+                                <button onClick={() => handleOnClick(word)}>
+                                    {word.word} - {word.numSyllables}
+                                </button>
+                            </li>
+                        )
+                    })
+                }
+            </ul>
         </div>
     )
 }

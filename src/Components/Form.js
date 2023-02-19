@@ -7,6 +7,7 @@ import DisplaySyllable from "./DisplaySyllable";
 const Form = () => {
   const [syllableError, setSyllableError] = useState(false);
   const [noMatchError, setNoMatchError] = useState(false);
+
   /* const the state and  method we need */
   const {
     userInput, setUserInput,
@@ -15,7 +16,7 @@ const Form = () => {
     lineOne, setLineOne,
     setQueryUserInput,
     setCurrentSyllable,
-    errorMessage, setErrorMessage
+    errorMessage, setErrorMessage,
   } = useContext(AppContext);
 
   const handleInputChange = e => {
@@ -58,10 +59,18 @@ const Form = () => {
           setSyllableError(true);
         } else {
           setSyllableLineOne(syllableLineOne - syllableCount);
-          const currentLine = lineOne + ' ' + userInput;
-          setLineOne(currentLine);
-          setSyllableError(false);
-          setCurrentSyllable(0)
+          if (lineOne.length === 0) {
+            const currentLine = userInput;
+            setLineOne(currentLine);
+            setSyllableError(false);
+            setCurrentSyllable(0);
+          } else {
+            const currentLine = lineOne + ' ' + userInput;
+            setLineOne(currentLine);
+            setSyllableError(false);
+            setCurrentSyllable(0);
+
+          }
         }
       }
     })
@@ -69,11 +78,11 @@ const Form = () => {
 
   useEffect(() => {
     if (userError) {
-      setErrorMessage('no numbers or special chars')
+      setErrorMessage('No numbers or special characters')
     } else if (syllableError) {
-      setErrorMessage('too many syllables')
+      setErrorMessage('Too many syllables')
     } else if (noMatchError) {
-      setErrorMessage('word does not exist')
+      setErrorMessage('Word does not exist')
     } else {
       setErrorMessage('');
     }
@@ -86,8 +95,8 @@ const Form = () => {
         <label htmlFor="input">Enter first word of Haiku:  </label>
         {
           (errorMessage) ?
-          <p>{errorMessage}</p> :
-          <DisplaySyllable />
+            <p><b>{errorMessage}</b></p> :
+            <DisplaySyllable />
         }
         <div className="inputContainer">
           <input type="text" id="input" name="input" placeholder="eg. Plant" onChange={handleInputChange} required></input>

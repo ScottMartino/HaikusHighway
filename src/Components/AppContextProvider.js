@@ -11,8 +11,9 @@ const AppContextProvider = ({ children }) => {
     const [followingWords, setFollowingWords] = useState([]);
     const [completedHaiku, setCompletedHaiku] = useState([]);
     const [queryUserInput, setQueryUserInput] = useState('');
-    const [currentSyllable, setCurrentSyllable] = useState (0);
+    const [currentSyllable, setCurrentSyllable] = useState(0);
     const [errorMessage, setErrorMessage] = useState('');
+    const [apiLoading, setApiLoading] = useState(false);
 
     return (
         <AppContext.Provider
@@ -25,7 +26,8 @@ const AppContextProvider = ({ children }) => {
                 completedHaiku, setCompletedHaiku,
                 queryUserInput, setQueryUserInput,
                 currentSyllable, setCurrentSyllable,
-                errorMessage, setErrorMessage
+                errorMessage, setErrorMessage,
+                apiLoading, setApiLoading,
             }}
         >
             {children}

@@ -35,7 +35,9 @@ section {
     margin: 1rem;
     display: flex;
     flex-direction: column;
-
+    h2{
+        text-transform: capitalize;
+    }
 }
 
 form {

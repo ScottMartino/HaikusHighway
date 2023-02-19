@@ -46,7 +46,6 @@ function App() {
                     completedHaiku.length < 3 ?
                       <div>
                         <FollowingWords />
-                        {/* <h3>{lineOne}</h3> */}
                         <Form />
                       </div>
                       :
@@ -60,7 +59,13 @@ function App() {
           <Route path='*' element={<ErrorPage />} />
         </Routes>
       </div>
-       <footer>Created by Umai Rav, Jimmy Kang and Scott Martino at <a href="https://junocollege.com/">Juno College</a></footer>
+      <footer>
+        Created by
+        <a href="https://github.com/urav083" target="_blank" rel="noreferrer"> Umai Rav</a>,
+        <a href="https://github.com/sjimmykang" target="_blank" rel="noreferrer"> Jimmy Kang</a> and
+        <a href="https://github.com/ScottMartino" target="_blank" rel="noreferrer"> Scott Martino</a> at
+        <a href="https://junocollege.com/" target="_blank" rel="noreferrer"> Juno College</a>
+      </footer>
     </div>
   );
 }
