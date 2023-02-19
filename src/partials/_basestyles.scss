@@ -15,7 +15,9 @@ body {
     background-repeat: no-repeat;
 }
 
-h1, h2, h3{
+h1,
+h2,
+h3 {
     font-family: $headingFont;
     color: $grey;
 }
@@ -28,12 +30,13 @@ h1 {
     font-size: 3rem;
 }
 
-a{
+a {
     text-decoration: none;
     color: $beige;
+
     &:hover,
     &:focus {
-        color:$green;
+        color: $green;
     }
 }
 
@@ -45,7 +48,7 @@ a{
 
 .wrapper {
     margin: 0 auto;
-    width:90%;
+    width: 90%;
     display: flex;
     flex-direction: column;
 }
@@ -61,6 +64,7 @@ button {
     padding: 5px 0.8rem;
     border-radius: 4px;
     transition: background-color 0.4s;
+
     &:hover,
     &:focus {
         background-color: $green;
@@ -81,3 +85,8 @@ li {
 }
 
 /* Media Queries related to basestyles */
+@media (max-width: 480px) {
+    .youreDone {
+        margin: 1rem;
+    }
+}
