@@ -94,3 +94,21 @@ form input {
     margin-top: 1rem;
 }
 /* Media Queries related to  */
+@media (max-width: 480px) {
+.formContainer {
+        margin: 0.5rem;
+    }
+form {
+    margin-top: 0.5rem;
+}
+form input {
+    margin-right: 0;
+    margin-bottom: 0.5rem;
+}
+.inputContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+}
