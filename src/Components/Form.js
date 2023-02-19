@@ -32,10 +32,8 @@ const Form = () => {
 
   const handleInputSubmit = (event) => {
     event.preventDefault();
-    /* set the userInput into queryUserInput to make axios call because queryUserInput is the useEffect dependency */
+    /* set the userInput into queryUserInput to make axios call because queryUserInput is the useEffect dependency to trigger useEffect for following words. */
     setQueryUserInput(userInput);
-    /* to trigger useEffect for following words. we still use userInput on this axios because this triggers off submit function and not useEffect */
-
     /* for resetting input */
     event.target[0].value = ('');
 
