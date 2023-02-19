@@ -16,11 +16,14 @@ function DisplaySyllable() {
             params: {
                 sp: userInput,
                 md: 's',
-                max: 1
+                max: 5
             }
         }).then((response) => {
             if (response.data[0] !== undefined) {
                 setCurrentSyllable(response.data[0].numSyllables);
+            } else if (userInput.length === 0) {
+                /* set count back down to zero when all input is removed */
+                setCurrentSyllable(0);
             }
         })
     }, [userInput, setCurrentSyllable])

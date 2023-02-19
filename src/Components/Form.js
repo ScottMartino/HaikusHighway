@@ -64,11 +64,13 @@ const Form = () => {
             setLineOne(currentLine);
             setSyllableError(false);
             setCurrentSyllable(0);
+            setUserInput('')
           } else {
             const currentLine = lineOne + ' ' + userInput;
             setLineOne(currentLine);
             setSyllableError(false);
             setCurrentSyllable(0);
+            setUserInput('')
 
           }
         }
@@ -83,7 +85,7 @@ const Form = () => {
     } else if (syllableError) {
       setErrorMessage('Too many syllables')
     } else if (noMatchError) {
-      setErrorMessage('Word does not exist')
+      setErrorMessage('Word does not exist. Please try another word')
     } else {
       setErrorMessage('');
     }
@@ -91,7 +93,6 @@ const Form = () => {
 
   return (
     <div className='formContainer'>
-      <h2>{lineOne}</h2>
       <form name="input" onSubmit={handleInputSubmit}>
         <label htmlFor="input">Enter first word of Haiku:  </label>
         {
