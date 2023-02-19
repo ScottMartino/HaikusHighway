@@ -5,6 +5,7 @@ section {
     min-height: 70%;
 }
 
+/* FollwingWords Component styles */
 .followingWordsContainer {
     display: flex;
     flex-direction: column;
@@ -30,7 +31,7 @@ section {
     }
 }
 
-/* form styles */
+/* Form Component styles */
 .formContainer {
     margin: 1rem;
     display: flex;
@@ -49,10 +50,17 @@ form {
         flex-direction: row;
         justify-content: center;
     }
+    p {
+        margin-top: 1rem;
+    }
 }
 
 label {
     color: $grey;
+}
+
+.inputContainer {
+    margin-top: 1.5rem;
 }
 
 form input {
@@ -70,10 +78,7 @@ form input {
     }
 }
 
-.empty {
-    min-height: 1.6rem;
-}
-
+/* DisplayHaiku Component styles */
 .displayHaikuContainer {
     padding: 10px 0 10px 0;
     min-height: 7rem;
@@ -88,29 +93,22 @@ form input {
     }
 }
 
-.inputContainer {
-    margin-top: 1.5rem;
-}
-
-.syllableCountContainer{
-    margin-top: 1rem;
-}
-/* Media Queries related to  */
+/* Media Queries related to main */
 @media (max-width: 480px) {
-.formContainer {
-        margin: 0.5rem;
+    .formContainer {
+            margin: 0.5rem;
+        }
+    form {
+        margin-top: 0.5rem;
     }
-form {
-    margin-top: 0.5rem;
-}
-form input {
-    margin-right: 0;
-    margin-bottom: 0.5rem;
-}
-.inputContainer {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
+    form input {
+        margin-right: 0;
+        margin-bottom: 0.5rem;
+    }
+    .inputContainer {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
 }

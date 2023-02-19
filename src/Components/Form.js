@@ -1,5 +1,4 @@
 import axios from "axios"
-/* import useContext and AppContext Component to useStates on the context component */
 import { useContext, useEffect, useState } from "react";
 import { AppContext } from "./AppContextProvider";
 import DisplaySyllable from "./DisplaySyllable";
@@ -40,7 +39,7 @@ const Form = () => {
     /* for resetting input */
     event.target[0].value = ('');
 
-    /* queryUserInput for syllable */
+    /* onSubmit, check userInput for syllable and to add to the haiku line if everything is correct */
     axios({
       url: 'https://api.datamuse.com/words',
       method: 'GET',
@@ -50,15 +49,18 @@ const Form = () => {
         max: 1
       }
     }).then((response) => {
+      /* check if userInput return proper data */
       if (response.data[0] === undefined) {
         setNoMatchError(true);
       } else {
         setNoMatchError(false);
         const syllableCount = response.data[0].numSyllables;
+        /* check if userInput word syllable count is within limit */
         if ((syllableLineOne - syllableCount) < 0) {
           setSyllableError(true);
         } else {
           setSyllableLineOne(syllableLineOne - syllableCount);
+          /* check if it is the first word in a line */
           if (lineOne.length === 0) {
             const currentLine = userInput;
             setLineOne(currentLine);
@@ -76,6 +78,7 @@ const Form = () => {
     })
   }
 
+  /* set different error message depending on the error states */
   useEffect(() => {
     if (userError) {
       setErrorMessage('No numbers or special characters')
@@ -95,7 +98,7 @@ const Form = () => {
         <label htmlFor="input">Enter first word of Haiku:  </label>
         {
           (errorMessage) ?
-            <p><b>{errorMessage}</b></p> :
+            <p className='boldText'>{errorMessage}</p> :
             <DisplaySyllable />
         }
         <div className="inputContainer">
