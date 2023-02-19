@@ -1,0 +1,23 @@
+@use "variables" as *;
+
+footer {
+    margin-top: auto;
+    text-align: center;
+    padding: 0.5rem;
+    background-color: rgb(86, 86, 86);
+    color: $beige;
+    a {
+        transition: color 0.4s;
+    }
+    a:hover,
+    a:focus{
+        color:black;
+    }
+}
+
+/* Media Queries related to  */
+@media (max-width: 480px) {
+    footer {
+        font-size: 1rem;
+    }
+}

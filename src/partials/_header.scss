@@ -1,0 +1,13 @@
+@use "variables" as *;
+
+header {
+    text-align: center;
+    margin: 2rem;
+}
+
+/* Media Queries related to  */
+@media (max-width: 480px) {
+    header {
+        margin: 1rem;
+    }
+}
