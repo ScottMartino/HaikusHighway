@@ -1,18 +1,15 @@
 import axios from "axios"
-/* import useContext and AppContext Component to useStates on the context component */
 import { useContext, useEffect, } from "react";
 import { AppContext } from "./AppContextProvider";
 
 const FollowingWords = () => {
     const {
-        syllableLineOne,
+        syllableLineOne, setSyllableLineOne,
         lineOne, setLineOne,
-        setSyllableLineOne,
-        followingWords,
-        setFollowingWords,
+        followingWords, setFollowingWords,
         queryUserInput, setQueryUserInput,
-        completedHaiku, apiLoading,
-        setApiLoading,
+        completedHaiku, 
+        apiLoading, setApiLoading,
     } = useContext(AppContext);
 
     const handleOnClick = word => {
@@ -24,7 +21,7 @@ const FollowingWords = () => {
     }
 
     useEffect(() => {
-        setApiLoading(true)
+        setApiLoading(true);
         axios({
             url: 'https://api.datamuse.com/words',
             method: 'GET',
@@ -35,8 +32,8 @@ const FollowingWords = () => {
                 max: 10
             }
         }).then((response) => {
-            /* to filter out words that only meets syllable count limit */
-            setApiLoading(false)
+            /* to filter out words that are above the syllable count left */
+            setApiLoading(false);
             setFollowingWords(
                 response.data.filter((word) =>
                     word.numSyllables <= syllableLineOne
@@ -53,8 +50,9 @@ const FollowingWords = () => {
 
             <ul className='followingWords' >
                 {
-                    ((followingWords.length === 0 && lineOne.length > 0 && syllableLineOne > 0) || (followingWords.length === 0 && completedHaiku.length > 0)) ? <li><p>No commonly following words exist.  Please enter another choice.</p></li> :
-                        null
+                    ((followingWords.length === 0 && lineOne.length > 0 && syllableLineOne > 0) || (followingWords.length === 0 && completedHaiku.length > 0)) ? 
+                    <li><p className='boldText'>No commonly following words exist. Please enter your next word</p></li> :
+                    null
                 }
                 {
                     followingWords.map((word, index) => {

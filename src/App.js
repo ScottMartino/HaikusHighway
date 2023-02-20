@@ -12,6 +12,7 @@ function App() {
   const {
     completedHaiku,
     setSyllableLineOne,
+    lineOne,
     setLineOne,
     setUserInput,
     setQueryUserInput,
@@ -45,6 +46,7 @@ function App() {
                   {
                     completedHaiku.length < 3 ?
                       <div>
+                        {<h2 className='lineOneDisplay'>{lineOne}</h2>}
                         <FollowingWords />
                         <Form />
                       </div>
