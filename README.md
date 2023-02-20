@@ -10,7 +10,7 @@
 18-FEB-2023: All media queries and css complete\
 17-FEB-2023: All css but media queries complete\
 16-FEB-2023: Full haiku logic complete\
-14-FEB-2023: Finished LineOne logic of haiku with limitations (error out on numbers and special characters input)\
+14-FEB-2023: Finished LineOne logic of haiku with limitations (error out on numbers and special characters input)
 
 
 ### Project Overview:
