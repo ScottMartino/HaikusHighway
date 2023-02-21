@@ -19,7 +19,8 @@ const Form = () => {
   } = useContext(AppContext);
 
   const handleInputChange = e => {
-    const regEx = /[\d\s.~!@#$%^&*()_+={}[\];',<>-]/g
+    /* ^ to use reverse logic to disallow false error on completely empty input */
+    const regEx = /[^a-z]/gi
     if (regEx.test(e.target.value)) {
       /* this means statement has number, special characters we do not want */
       setUserError(true);
