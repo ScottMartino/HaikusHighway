@@ -5,8 +5,9 @@ footer {
     text-align: center;
     padding: 0.5rem;
     background-color: rgb(86, 86, 86);
-    color: $beige;
+    color: $offWhite;
     a {
+            color: $offWhite;
         transition: color 0.4s;
     }
     a:hover,
