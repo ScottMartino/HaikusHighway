@@ -32,12 +32,12 @@ function App() {
   return (
     <div className='OuterContainer'>
       <div className="wrapper">
+        <header>
+          <h1>Haikus Highway</h1>
+        </header>
         <Routes>
           <Route path='/' element={
             <>
-              <header>
-                <h1>Haikus Highway</h1>
-              </header>
               <main>
                 <section>
                   <DisplayHaiku />
